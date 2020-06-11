@@ -9,6 +9,8 @@
 // Declaration for an SSD1306 display connected to I2C (SDA, SCL pins)
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
+int *holeArr; 
+int pointerCount = 0;
 int x = 1;
 int y = 50;
 int sectionCounter = 0;
@@ -20,6 +22,8 @@ int sectionCounter = 0;
  int joyVal;       
  int joyLast;
  int joyClick = 0;
+ int holeArr1 [2]= {17,18}; 
+
 
  void setup() {          // initializes digital pins 0 to 7 as outputs
             // variable to read the value from the analog pin 1
@@ -50,7 +54,9 @@ void loop() {
   if(digitalRead(clickPin)==0){
     jumpButton();
   }
-  
+  if(sectionCounter > 0){
+    checkHole();
+  }
 
 }
 
@@ -111,27 +117,49 @@ void jumpButton(){
   }
 }
 
+
+void checkHole(){
+  
+  for(int i = 0; i < pointerCount; i++) {
+    int val = holeArr[i];
+    //Serial.println(x);
+    Serial.println(val);
+    if(x == val && y==50){
+      Serial.println("ded");     
+      
+    }
+}
+}
+
 void newSection(){
+
+  //create array for holes
+  
 
   display.setTextColor(WHITE);
   display.setCursor(0, 55);
   // Display static text
   display.clearDisplay();
+  
   if(sectionCounter == 1){
-  display.println("--- --------------");
-  display.display();
+    
+    holeArr = holeArr1;
+    pointerCount = 2;
+    display.println("--- --------------");
+    display.display();
   }
   if(sectionCounter == 2){
-  display.println("----------- ------");
-  display.display();
+    int holeArr2 [1] = {1}; 
+    display.println("------- --- ------");
+    display.display();
   }
   if(sectionCounter == 3){
-  display.println("-------  ---------");
-  display.display();
+    display.println("-------  ---------");
+    display.display();
   }
   else{
-  display.println("------------------");
-  display.display();
+    display.println("------------------");
+    display.display();
   }
   x=1;
 }
