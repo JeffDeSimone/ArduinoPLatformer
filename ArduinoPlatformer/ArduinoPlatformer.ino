@@ -125,7 +125,19 @@ void checkHole(){
     //Serial.println(x);
     Serial.println(val);
     if(x == val && y==50){
-      Serial.println("ded");     
+      for( int a= 0; a < 10; a++ ) {
+        clearSprite(x,y);
+        display.setTextColor(WHITE);
+        display.setCursor(x, y);
+        display.print("0");
+        delay(100);
+        display.setCursor(x, y);
+        display.print("x");
+        
+        display.display();
+        sectionCounter = 0;
+        newSection();
+      }
       
     }
 }
@@ -140,10 +152,12 @@ void newSection(){
   display.setCursor(0, 55);
   // Display static text
   display.clearDisplay();
+
   
   if(sectionCounter == 1){
     
     holeArr = holeArr1;
+    //have to manually create the count for the pointer for some reason arduino is having issues with getting count of array pointer or idk how to do that properly.
     pointerCount = 2;
     display.println("--- --------------");
     display.display();
